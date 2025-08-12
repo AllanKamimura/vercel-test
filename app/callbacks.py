@@ -1,6 +1,7 @@
 import plotly.graph_objects as go
 from dash import Input, Output
-from data import get_discourse_df
+
+from app.data import get_discourse_df
 
 
 def register_callbacks(app):
