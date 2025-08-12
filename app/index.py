@@ -5,7 +5,8 @@ class MainApplication:
     def __init__(self):
         self.__app = Dash(
             __name__,
-            use_pages=True,
+            pages_folder="",
+            use_pages=False,
         )
         self.set_layout()
 
