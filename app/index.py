@@ -1,25 +1,14 @@
-from dash import Dash, html
+from dash import Dash
+
+from callbacks import register_callbacks
+from layout import create_layout
 
 
-class MainApplication:
-    def __init__(self):
-        self.__app = Dash(
-            __name__,
-            pages_folder="",
-            use_pages=False,
-        )
-        self.set_layout()
+app = Dash(__name__)
+app.layout = create_layout()
 
-    @property
-    def app(self):
-        return self.__app
-
-    def set_layout(self):
-        self.app.layout = html.Div(["Your Dash App Layout..."])
-
-
-Application = MainApplication()
-app = Application.app.server
+# register_callbacks(app, df_inkeep, df_discourse)
+register_callbacks(app)
 
 if __name__ == "__main__":
-    Application.app.run(port=8080, dev_tools_ui=True, debug=True, host="127.0.0.1")
+    app.run(debug=True)
