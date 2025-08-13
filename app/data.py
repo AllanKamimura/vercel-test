@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 
@@ -9,18 +10,23 @@ API_USERNAME = "allan.tx"
 QUERY_ID = 67
 
 
-def get_discourse_df():
+def get_discourse_df(start_date: str, end_date: str):
     url = f"{DISCOURSE_URL}/admin/plugins/explorer/queries/{QUERY_ID}/run"
     headers = {
         "Api-Key": API_KEY,
         "Api-Username": API_USERNAME,
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
+    }
+
+    form_data = {
+        "params": json.dumps({"start_date": start_date, "end_date": end_date}),
     }
 
     try:
-        response = requests.post(url, json={"params": None}, headers=headers)
+        response = requests.post(url, data=form_data, headers=headers)
         response.raise_for_status()
         data = response.json()
+        logging.info(json.dumps(data))
 
     except requests.exceptions.RequestException as e:
         logging.warning(f"Discourse API error, falling back to empty DataFrame: {e}")

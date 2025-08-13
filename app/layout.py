@@ -29,6 +29,7 @@ def create_layout():
                                 max_date_allowed=dt.datetime.now(),
                                 start_date=dt.date(2025, 3, 30),
                                 end_date=dt.datetime.now(),
+                                display_format="YYYY-MM-DD",
                             ),
                         ]
                     ),

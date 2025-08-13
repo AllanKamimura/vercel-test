@@ -13,7 +13,7 @@ def register_callbacks(app):
         Input("sentiment-dropdown", "value"),
     )
     def update(start_date, end_date, question_type, sentiment):
-        community_df = get_discourse_df()
+        community_df = get_discourse_df(start_date, end_date)
 
         return update_graph(community_df)
 
@@ -28,6 +28,7 @@ def register_callbacks(app):
                 name="Community Likes",
                 fill="tozeroy",
                 line=dict(color="green"),
+                hovertemplate="<b>Acceptance rate:</b> %{y}<br><b>Week Date:</b> %{x}<extra></extra>",
             )
         )
 
