@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+from typing import Optional
 
 import requests
 
@@ -10,7 +11,7 @@ API_USERNAME = "allan.tx"
 QUERY_ID = 67
 
 
-def get_discourse_df(start_date: str, end_date: str):
+def get_discourse_df_agg(start_date: str, end_date: str):
     url = f"{DISCOURSE_URL}/admin/plugins/explorer/queries/{QUERY_ID}/run"
     headers = {
         "Api-Key": API_KEY,
@@ -45,13 +46,54 @@ def get_discourse_df(start_date: str, end_date: str):
 
 def format_discourse(discourse_data):
     date_idx = discourse_data["columns"].index("date")
-    value_idx = discourse_data["columns"].index("solved_by_bot_normalized")
+    solved_idx = discourse_data["columns"].index("solved_by_bot_normalized")
+    like_idx = discourse_data["columns"].index("likes")
+    dislike_idx = discourse_data["columns"].index("dislikes")
     dates = []
     solved_norm = []
+    likes = []
+    dislikes = []
     for row in discourse_data["rows"]:
         try:
             dates.append(row[date_idx])
-            solved_norm.append(float(row[value_idx]))
+            solved_norm.append(float(row[solved_idx]))
+            likes.append(float(row[like_idx]))
+            dislikes.append(float(row[dislike_idx]))
         except (ValueError, TypeError, IndexError):
             continue
-    return {"date": dates, "solved_norm": solved_norm}
+    return {
+        "date": dates,
+        "solved_norm": solved_norm,
+        "likes": likes,
+        "dislikes": dislikes,
+    }
+
+
+def fetch_questions_from_lambda(
+    start_date: str = "2025-06-01",
+    end_date: str = "2025-08-21",
+    questionType: Optional[str] = None,
+    sentiment: Optional[str] = None,
+):
+    """
+    Fetch questions from the LAMBDA_ENDPOINT with the given parameters.
+    Returns a JSON array of question dicts.
+    """
+    endpoint = os.environ.get("LAMBDA_ENDPOINT")
+    if not endpoint:
+        raise ValueError("LAMBDA_ENDPOINT environment variable is not set")
+
+    params = {
+        "start_date": start_date,
+        "end_date": end_date,
+        "questionType": questionType,
+        "sentiment": sentiment,
+    }
+
+    try:
+        response = requests.get(endpoint, params=params)
+        response.raise_for_status()
+        return response.json()
+    except requests.RequestException as e:
+        logging.warning(f"Lambda API error: {e}")
+        return []
