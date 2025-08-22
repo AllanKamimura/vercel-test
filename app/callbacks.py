@@ -36,7 +36,7 @@ def register_callbacks(app):
                     symbol="star",
                     size=10,
                 ),
-                hovertemplate="<b>Acceptance rate:</b> %{y:.3f}<br><b>Week Date:</b> %{x}<extra></extra>",
+                hovertemplate="<b>Acceptance rate:</b> %{y:.2f} %<br><b>Week Date:</b> %{x}<extra></extra>",
             )
         )
 
@@ -56,7 +56,7 @@ def register_callbacks(app):
                     symbol="circle",
                 ),
                 fillcolor="rgba(0,255,0,0.15)",
-                hovertemplate="<b>Like rate:</b> %{y:.3f}<br><b>Week Date:</b> %{x}<extra></extra>",
+                hovertemplate="<b>Like rate:</b> %{y:.2f}%<br><b>Week Date:</b> %{x}<extra></extra>",
             )
         )
 
@@ -76,14 +76,18 @@ def register_callbacks(app):
                     symbol="square",
                 ),
                 fillcolor="rgba(255,0,0,0.15)",
-                hovertemplate="<b>Dislikes rate:</b> %{y:.3f}<br><b>Week Date:</b> %{x}<extra></extra>",
+                hovertemplate="<b>Dislikes rate:</b> %{y:.2f}%<br><b>Week Date:</b> %{x}<extra></extra>",
             )
         )
 
         fig.update_layout(
             title="ToradexAI Metrics",
             xaxis_title="Date by Week",
-            yaxis_title="Normalized Metric",
+            yaxis_title="Metric Percentage",
         )
 
         return fig
+
+    # def update_wordcloud(word_list):
+
+    #     return generate_wordcloud(word_list)

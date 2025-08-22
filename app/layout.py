@@ -53,11 +53,11 @@ def create_layout():
                                         "label": "Is X Supported 1P",
                                         "value": "is_x_supported_1p",
                                     },
-                                    # {
-                                    #     "label": "Help Implement Extended 1P",
-                                    #     "value": "help_implement_extended_1p",
-                                    # },
-                                    # {"label": "Other", "value": "other"},
+                                    {
+                                        "label": "Help Implement Extended 1P",
+                                        "value": "help_implement_extended_1p",
+                                    },
+                                    {"label": "Other", "value": "other"},
                                     {
                                         "label": "Is X Supported 3P",
                                         "value": "is_x_supported_3p",
