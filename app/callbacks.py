@@ -84,6 +84,13 @@ def register_callbacks(app):
             title="ToradexAI Metrics",
             xaxis_title="Date by Week",
             yaxis_title="Metric Percentage",
+            legend=dict(
+                orientation="h",  # horizontal
+                yanchor="top",  # anchor the legend at the top of its box
+                y=-0.2,  # place it below the chart
+                xanchor="center",  # center it horizontally
+                x=0.5,
+            ),
         )
 
         return fig
